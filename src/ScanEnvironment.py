@@ -32,7 +32,7 @@ class ScanEnvironment:
                  runfilescans, tlshmaximum, synthesizedminimum, logging,
                  paddingname, unpackdirectory, temporarydirectory,
                  resultsdirectory, scanfilequeue, resultqueue,
-                 processlock, checksumdict,
+                 processlock, checksumdict, depth,
                 ):
         """unpackdirectory: a Path object, absolute
            temporarydirectory: a Path object, absolute
@@ -60,6 +60,7 @@ class ScanEnvironment:
         self.processlock = processlock
         self.checksumdict = checksumdict
         self.runfilescans = runfilescans
+        self.depth = depth
 
     def get_runfilescans(self):
         return self.runfilescans
@@ -72,6 +73,9 @@ class ScanEnvironment:
 
     def get_createjson(self):
         return self.createjson
+
+    def get_depth(self):
+        return self.depth
 
     def get_tlshmaximum(self):
         return self.tlshmaximum

@@ -12,7 +12,7 @@ KAITAISTRUCT_COMPILER= kaitai-struct-compiler
 all: $(KAITAI_PARSERS)
 
 %.py : %.ksy
-	$(KAITAISTRUCT_COMPILER) -t python --outdir `dirname "$<"` $<
+	$(KAITAISTRUCT_COMPILER) -no-version-check -t python --outdir `dirname "$<"` $<
 	sed -i 's/^import \($(KAITAI_PATTERN)\)$$/from . &/' "$@"
 
 .PHONY: test parsertests

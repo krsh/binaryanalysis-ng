@@ -31,6 +31,7 @@ import sys
 import traceback
 import json
 from operator import itemgetter
+import queue
 
 import bangsignatures
 from bangfilescans import bangfilefunctions, bangwholecontextfunctions
@@ -656,11 +657,24 @@ def processfile(dbconn, dbcursor, scanenvironment):
 
     createbytecounter = scanenvironment.get_createbytecounter()
     createjson = scanenvironment.get_createjson()
+    depth = scanenvironment.get_depth()
 
     carveunpacked = True
+    current_depth = 0
 
     while True:
         try:
+            if depth:
+                if current_depth == depth:
+                    while not scanfilequeue.empty():
+                        try:
+                            scanfilequeue.get(False)
+                        except queue.Empty:
+                            continue
+                        scanfilequeue.task_done()
+                    return
+                current_depth = current_depth + 1
+
             scanjob = scanfilequeue.get(timeout=86400)
             if not scanjob: continue
             scanjob.set_scanenvironment(scanenvironment)

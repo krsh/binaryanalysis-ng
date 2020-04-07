@@ -75,6 +75,7 @@ class BangScannerOptions:
             'uselogging': True,
             'bangthreads': multiprocessing.cpu_count(),
             'checkpath': None,
+            'depth': None,
         }
         self.options = ObjectDict(dict(self.defaults))
 
@@ -184,6 +185,8 @@ class BangScannerOptions:
                 section='configuration')
         self._set_integer_option_from_config('bangthreads',
                 section='configuration', option='threads')
+        self._set_integer_option_from_config('depth',
+                section='configuration', option='depth')
         self._set_boolean_option_from_config('removescandirectory',
                 section='configuration')
         self._set_boolean_option_from_config('createbytecounter',
@@ -229,6 +232,8 @@ class BangScannerOptions:
         # bangthreads >= 1
         if self.options.bangthreads < 1:
             self.options.bangthreads = self.defaults['bangthreads']
+        if self.options.depth < 1:
+            self.options.depth = self.defaults['depth']
         # option usedatabase true if db parameters set
         self.options.usedatabase = self.options.postgresql_enabled and \
             self.options.postgresql_db and \
